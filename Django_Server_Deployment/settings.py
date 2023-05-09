@@ -189,14 +189,14 @@ SEPARATOR_FORMAT = "%Y %m %d, %A, %H:%M"
 
 # SECURE_HSTS_SECONDS = 600
 
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
 
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://app.sunwoo.top', 
-    'http://app.sunwoo.top',
-]
+# CSRF_TRUSTED_ORIGINS = [
+#     'https://app.sunwoo.top', 
+#     'http://app.sunwoo.top',
+# ]
 
 
 

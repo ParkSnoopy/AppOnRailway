@@ -14,6 +14,8 @@
       if ( window.innerWidth > 960 ) {
         document.getElementById("main-container").style = "width: 60%; "
         document.getElementById("innerelements-widthcontrol").style = "margin-left: 10%; width: 80%;";
+      } else {
+        
       }
     }
   </script>
@@ -21,15 +23,19 @@
 <body onload="controlDeviceWidth()">
 
 <div id="main-container" class="container-lg pt-3">
-  <a href="/" type="button" class="btn btn-outline-secondary btn-lg">Back to home</a><br><br>
+  <a href="/" type="button" class="btn btn-outline-secondary btn-lg">메인 화면으로</a><br><br>
   <div class="jumbotron text-center">
     <div id="innerelements-widthcontrol">
       <h1>Public File Share</h1><br><br>
 
-      <a href="upload/" type="button" class="btn btn-info btn-lg btn-block" style="scale: 120%; width: 80%; margin-left: 10%; ">Upload New</a><br><br>
+      <a href="upload/" type="button" class="btn btn-success btn-lg btn-block" style="scale: 120%; width: 75%; margin-left: 12.5%; ">새로 만들기</a><br><br>
 
       {% for file, title in files_titles %}
-      <a type="button" class="btn btn-outline-info btn-lg btn-block" href="shared/{{file}}" target="_blank" style="scale: 120%; width: 80%; margin-left: 10%; ">{{title}}</a><br>
+
+      <a type="button" class="btn btn-outline-success btn-lg" href="shared/{{file}}" target="_blank" style="font-size:150%;width:85%;">{{title}}</a>
+      <!--<a type="button" class="btn btn-outline-secondary btn-lg" href="shared/{{file}}" target="_blank" style="font-size:150%;width:10%;" download><img src="/static/image/saveas.png" width="25" height="25" style="margin-bottom:10%;margin-right:10%;"></a>-->
+      <br><br>
+
       {% endfor %}
     </div>
   </div>

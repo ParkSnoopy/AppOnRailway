@@ -4,7 +4,7 @@ from django.conf import settings
 
 from .models import Publicfile
 
-import os
+import os, zipfile
 
 # Create your views here.
     
@@ -26,7 +26,9 @@ def get_publicfile(request, filename:str):
         if str(path).split('.')[-1] != 'zip':
             return FileResponse( open( path, 'rb' ) )
         else:
-            return HttpResponse( open( path, 'rb' ), content_type='application/zip' )
+            response = HttpResponse( open( path, 'rb' ).read(), content_type='application/x-zip-compressed' )
+            response['Content-Disposition'] = f'attachment; filename={filename}.zip'
+            return response
     
     else:
         
