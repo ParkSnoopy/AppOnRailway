@@ -1,0 +1,51 @@
+{% extends "layout2.html" %}
+
+
+{% block title %}
+<title>Liargame - Home</title>
+{% endblock %}
+
+
+{% block content %}
+
+<h1>Liar Game Mainpage</h1><br>
+
+{% if ready and liars %}
+  <p class="text-success">Status: all set! ready to play!</p>
+{% elif ready %}
+  <p class="text-info">Status: word set! waiting for choose liar...</p>
+{% else %}
+  <p class="text-danger">Status: not ready</p>
+{% endif %}
+
+<h4>{{ joined_len }}</h4>
+<h6>in Queue</h6><br>
+
+{% if ready and liars %}
+  <a class="btn btn-info btn-lg btn-block" href="{% url 'liargame_check_my_word' %}" role="button">Check My Word</a>
+{% endif %}
+
+<a class="btn btn-outline-secondary btn-block" href="{% url 'home' %}" role="button">Back to Home</a><br><br>
+{% if user.get_username in joined %}
+  <a class="btn btn-info btn-lg btn-block" href="{% url 'liargame_join' %}" role="button">Already in Queue!</a>
+  <a class="btn btn-outline-info btn-block" href="{% url 'liargame_unjoin' %}" role="button">Quit</a>
+
+  {% if user.is_leadership %}
+    <br><br>
+
+    {% if not ready and not liars %}
+      <a class="btn btn-info btn-lg btn-block" href="{% url 'liargame_set_word' %}" role="button">Set Word</a>
+    {% elif ready and not liars %}
+      <a class="btn btn-info btn-lg btn-block" href="{% url 'liargame_choose_liar' %}" role="button">Choose Liar</a>
+    {% else %}
+      <a class="btn btn-info btn-lg btn-block" href="{% url 'liargame_reset' %}" role="button">Reset</a>
+    {% endif %}
+
+  {% endif %}
+
+{% else %}
+  <a class="btn btn-info btn-lg btn-block" href="{% url 'liargame_join' %}" role="button">Join!</a>
+{% endif %}
+
+
+{% endblock %}

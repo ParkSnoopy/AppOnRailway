@@ -1,0 +1,17 @@
+{% extends "layout2.html" %}
+
+
+{% block title %}
+<title>Update - Home</title>
+{% endblock %}
+
+
+{% block content %}
+  <h1>공지 수정</h1><br><br>
+  {% for chatroom in chatrooms %}
+    <a class="btn btn-info btn-lg btn-block" href="{{chatroom.id}}/" role="button">'{{chatroom.roomname}}' 의 공지 수정하기</a><br>
+  {% endfor %}
+  <br>
+  <a class="btn btn-secondary btn-lg btn-block" href="/" role="button">돌아가기</a>
+
+{% endblock %}

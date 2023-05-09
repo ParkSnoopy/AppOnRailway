@@ -1,0 +1,34 @@
+{% extends "layout2.html" %}
+
+
+{% block title %}
+<title>Liargame - Set Word Result</title>
+{% endblock %}
+
+
+{% block content %}
+
+<h1>Liar Game Word Preview</h1><br><br>
+
+<h5>진짜 제시어: </h5>
+{% if realword %}
+<h4>{{ realword }}</h4><br>
+{% else %}
+<h4 class="text-muted">제시어가 없습니다</h4><br>
+{% endif %}
+
+<h5>가짜 제시어: </h5>
+{% if fakeword %}
+<h4>{{ fakeword }}</h4><br>
+{% else %}
+<h4 class="text-muted">제시어가 없습니다</h4><br>
+{% endif %}
+<br>
+
+<a class="btn btn-info btn-lg btn-block" href="{% url 'liargame_set_word' %}" role="button">재설정</a>
+{% if realword and fakeword %}
+<br>
+<a class="btn btn-info btn-lg btn-block" href="{% url 'liargame_set_word_result_confirm' %}" role="button">결정</a>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "layout2.html" %}
+{% load static %}
+
+{% block title %}
+<title>Update - {{roomname}} - Confirm</title>
+<link href="{% static 'css/textarea.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+  <h1 class="text-info">'{{roomname}}'</h1>
+  <h1 class="text-info">업데이트 재확인</h1><br>
+  
+  <form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+      <div class="md-form amber-textarea active-amber-textarea">
+        <label for="announcement-title"><p class="h3 text-secondary">제목</p></label>
+        <textarea 
+          name="title" 
+          id="announcement-title" 
+          class="md-textarea form-control form-control-lg" 
+          rows="2" 
+          placeholder="{{anncm_title}}"
+          disabled></textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="md-form amber-textarea active-amber-textarea">
+        <label for="announcement-content"><p class="h3 text-secondary">내용</p></label>
+        <textarea 
+          name="content" 
+          id="announcement-content" 
+          class="md-textarea form-control form-control-lg" 
+          rows="8"
+          placeholder="{{anncm}}"
+          disabled></textarea>
+      </div>
+    </div><br>
+    <div class="form-group">
+      <a href="/update/{{id}}/" class="btn btn-secondary btn-lg" style="font-size: 200%;width: 45%;">수정</a>
+      <button type="submit" class="btn btn-info btn-lg" style="font-size: 200%;width: 45%;margin-left: 5%;">확인</button>
+    </div>
+  </form>
+
+{% endblock %}

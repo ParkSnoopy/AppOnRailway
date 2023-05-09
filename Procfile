@@ -1,0 +1,1 @@
+web: gunicorn 'Django_Server_Deployment.wsgi'

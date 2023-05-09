@@ -1,0 +1,90 @@
+{% extends "layout2.html" %}
+
+
+{% block title %}
+<title>Account - Update</title>
+{% endblock %}
+
+
+{% block content %}
+  <h1 class="text-info">프로필 수정</h1><br>
+  <h3><strong>기본 정보</strong></h3><br>
+
+  {% if submitted %}
+  <div class="card text-center">
+    <div class="card-header"></div>
+    <div class="card-body">
+      <h4 class="card-title text-info"><strong>프로필 수정 성공!</strong></h4>
+      <br>
+      <a href="/" class="btn btn-outline-info">메인 화면으로 돌아가기</a>
+    </div>
+    <div class="card-footer text-muted"></div>
+  </div>
+  {% endif %}
+  <br>
+
+  <form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="usernameForm"><p class="h4 text-secondary">USERNAME</p></label>
+      <input 
+        name="username" 
+        id="usernameForm" 
+        class="md-textarea form-control form-control-lg" 
+        placeholder="{{profile.nickname}}"
+      ></input>
+    </div><br>
+    <div class="form-group">
+      <label for="emailForm"><p class="h4 text-secondary">EMAIL</p></label>
+      <input 
+        name="email" 
+        id="emailForm" 
+        class="md-textarea form-control form-control-lg" 
+        placeholder="{{user.email}}"
+        disabled
+      ></input>
+    </div>
+    <div class="form-group">
+      <label for="IDForm"><p class="h4 text-secondary">ID</p></label>
+      <input 
+        name="ID" 
+        id="IDForm" 
+        class="md-textarea form-control form-control-lg" 
+        placeholder="{{user.username}}"
+        disabled
+      ></input>
+    </div><br>
+    <div class="form-group">
+      <label for="passwordForm"><p class="h4 text-secondary">PASSWORD</p></label>
+      <input 
+        type="password"
+        name="password" 
+        id="passwordForm" 
+        class="md-textarea form-control form-control-lg" 
+        placeholder="Currently not supported"
+        disabled
+      ></input>
+    </div>
+    <div class="form-group">
+      <label for="passwordConfirmForm"><p class="h4 text-secondary">PASSWORD CONFIRM</p></label>
+      <input 
+        type="password"
+        name="passwordConfirm" 
+        id="passwordConfirmForm" 
+        class="md-textarea form-control form-control-lg" 
+        placeholder="Currently not supported"
+        disabled
+      ></input>
+    </div>
+    <div class="form-check checkbox-lg">
+      <input class="form-check-input" name="changePassword" type="checkbox" id="changePasswordForm" style="scale: 1.6;top: 0.15rem;" disabled>
+      <label class="form-check-label" for="changePasswordForm" style="font-size: 120%;margin-left: 0.5rem;">
+        <p class="h5 text-secondary">CHANGE PASSWORD</p>
+      </label>
+    </div><br><br>
+    <div class="form-group">
+      <a href="/" class="btn btn-secondary btn-lg" style="font-size: 140%;width: 47%;">돌아가기</a>
+      <button type="submit" class="btn btn-info btn-lg" style="font-size: 140%;width: 47%;margin-left: 4%;">확인</button>
+    </div>
+  </form>
+{% endblock %}

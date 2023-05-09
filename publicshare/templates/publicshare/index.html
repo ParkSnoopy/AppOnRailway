@@ -1,0 +1,39 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Public File Sharing</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="/static/favicon.ico">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" type='text/css' href="/static/css/bootstrap.min.css">
+  <script type="text/javascript">
+    function controlDeviceWidth() {
+      if ( window.innerWidth > 960 ) {
+        document.getElementById("main-container").style = "width: 60%; "
+        document.getElementById("innerelements-widthcontrol").style = "margin-left: 10%; width: 80%;";
+      }
+    }
+  </script>
+</head>
+<body onload="controlDeviceWidth()">
+
+<div id="main-container" class="container-lg pt-3">
+  <a href="/" type="button" class="btn btn-outline-secondary btn-lg">Back to home</a><br><br>
+  <div class="jumbotron text-center">
+    <div id="innerelements-widthcontrol">
+      <h1>Public File Share</h1><br><br>
+
+      <a href="upload/" type="button" class="btn btn-info btn-lg btn-block" style="scale: 120%; width: 80%; margin-left: 10%; ">Upload New</a><br><br>
+
+      {% for file, title in files_titles %}
+      <a type="button" class="btn btn-outline-info btn-lg btn-block" href="shared/{{file}}" target="_blank" style="scale: 120%; width: 80%; margin-left: 10%; ">{{title}}</a><br>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

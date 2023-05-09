@@ -1,0 +1,30 @@
+{% extends "layout2.html" %}
+
+
+{% block title %}
+<title>Liargame - Set Word</title>
+{% endblock %}
+
+
+{% block content %}
+
+<h1>Liar Game Word Setter</h1><br><br>
+<form method="post" action="{% url 'liargame_set_word_result' %}">
+  {% csrf_token %}
+
+  <div class="form-group">
+    <label>
+      <input class="form-control form-control-lg" type="text" placeholder="진짜 제시어" name="realword">
+    </label><br>
+    <label>
+      <input class="form-control form-control-lg" type="text" placeholder="가짜 제시어" name="fakeword">
+    </label>
+  </div><br>
+
+  <button class="btn btn-info btn-lg btn-block" type="submit">Confirm</button>
+
+</form><br><br>
+
+<a class="btn btn-outline-secondary btn-block" href="{% url 'liargame_home' %}" role="button">Back to Home</a>
+
+{% endblock %}

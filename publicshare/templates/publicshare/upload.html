@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Public File Sharing</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="/static/favicon.ico">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" type='text/css' href="/static/css/bootstrap.min.css">
+  <script type="text/javascript">
+    function controlDeviceWidth() {
+      if ( window.innerWidth > 960 ) {
+        document.getElementById("main-container").style = "width: 60%; "
+        document.getElementById("innerelements-widthcontrol").style = "margin-left: 10%; width: 80%;";
+      }
+    }
+    function filenameUpdate() {
+      const filename = document.getElementById('fileuploadForm').value.split(/(\\|\/)/g).pop();
+      document.getElementById('fileuploadIndicate').innerHTML = '<p class="text-secondary">' + filename + '</p>';
+      document.getElementById("titleForm").setAttribute("placeholder", filename)
+    }
+  </script>
+</head>
+<body onload="controlDeviceWidth()">
+
+<div id="main-container" class="container-lg pt-3">
+  <a href="/" class="btn btn-outline-secondary btn-lg">돌아가기</a><br><br>
+  <div class="jumbotron text-center">
+    <div id="innerelements-widthcontrol">
+      <h1>파일 공유</h1><br><br>
+
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="titleForm"><p class="h5 text-secondary">파일 설명</p></label>
+          <input 
+            id="titleForm" 
+            name="title" 
+            class="md-textarea form-control" 
+            style="width:80%; margin-left:10%;" 
+          ></input>
+        </div><br>
+        <div class="form-group">
+          <label class="btn btn-info btn-lg" style="width:80%">파일선택<input id="fileuploadForm" name='file' type="file" onchange="filenameUpdate()" hidden></label>
+          <div id="fileuploadIndicate"></div>
+        </div><br>
+        <div>
+          <button type="submit" class="btn btn-info btn-lg" style="width:80%">업로드</button>
+        </div><br>
+      </form>
+      
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

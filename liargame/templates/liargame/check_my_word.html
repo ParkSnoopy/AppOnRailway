@@ -1,0 +1,24 @@
+{% extends "layout2.html" %}
+
+
+{% block title %}
+<title>Liargame - Check My Word</title>
+{% endblock %}
+
+
+{% block content %}
+
+<h3>당신은</h3>
+{% if is_liar %}
+  <h1 class="text-danger">라이어입니다</h1>
+{% else %}
+  <h1 class="text-info">라이어가 아닙니다</h1>
+{% endif %}
+<br><br>
+
+<h5>제시어: </h5>
+<h4>{{ my_word }}</h4><br>
+
+<a class="btn btn-info btn-lg btn-block" href="{% url 'liargame_home' %}" role="button">확인</a>
+
+{% endblock %}
