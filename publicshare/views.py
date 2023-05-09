@@ -26,7 +26,7 @@ def get_publicfile(request, filename:str):
         if str(path).split('.')[-1] != 'zip':
             return FileResponse( open( path, 'rb' ) )
         else:
-            return HttpResponse( open( path, 'rb' ), content_type='application/x-zip-compressed' )
+            return HttpResponse( open( path, 'rb' ), content_type='application/zip' )
     
     else:
         
