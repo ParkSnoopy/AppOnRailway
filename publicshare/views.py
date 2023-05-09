@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import FileResponse, Http404
+from django.http import HttpResponse, FileResponse, Http404
 from django.conf import settings
 
 from .models import Publicfile
@@ -22,8 +22,11 @@ def get_publicfile(request, filename:str):
     path = settings.MEDIA_ROOT / 'public' / filename
     
     if os.path.isfile(path):
-    
-        return FileResponse( open( path, 'rb' ).read() )
+        
+        if str(path).split('.')[-1] != 'zip':
+            return FileResponse( open( path, 'rb' ) )
+        else:
+            return HttpResponse( open( path, 'rb' ), content_type='application/x-zip-compressed' )
     
     else:
         
