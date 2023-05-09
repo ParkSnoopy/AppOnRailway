@@ -4,7 +4,7 @@ from django.conf import settings
 
 from .models import Publicfile
 
-import os, zipfile
+import os
 
 # Create your views here.
     
