@@ -28,7 +28,7 @@ def get_file(request, **paths):
     for slug in SLUG_SEQUENCE[:len(paths)]:
         fullpath /= paths.get(slug)
     
-    return FileResponse( open( fullpath, 'rb' ) )
+    return FileResponse( open( fullpath, 'rb' ).read() )
 
 @login_required
 def get_static(request, **paths):
@@ -37,4 +37,4 @@ def get_static(request, **paths):
     for slug in SLUG_SEQUENCE[:len(paths)]:
         fullpath /= paths.get(slug)
     
-    return FileResponse( open( fullpath, 'rb' ) )
+    return FileResponse( open( fullpath, 'rb' ).read() )

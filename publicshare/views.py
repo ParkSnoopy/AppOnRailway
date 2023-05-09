@@ -23,7 +23,7 @@ def get_publicfile(request, filename:str):
     
     if os.path.isfile(path):
     
-        return FileResponse( open( path, 'rb' ) )
+        return FileResponse( open( path, 'rb' ).read() )
     
     else:
         
