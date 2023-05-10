@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
-from django.core.files.storage import FileSystemStorage
+# from django.core.files.storage import FileSystemStorage
 
 from datetime import timedelta
 import os
@@ -9,21 +9,25 @@ import os
 # Create your models here.
 
 
-PUBLIC_STORAGE = FileSystemStorage(
-    location='public/', 
-)
+# PUBLIC_STORAGE = FileSystemStorage(
+#     location='public/', 
+# )
 
 class PublicfileManager(models.Manager):
     
     def create(self, content, title=None):
         if title:
-            publicfile = self.model(content=content, title=title)
-            PUBLIC_STORAGE.save(name=title, content=content)
+            return super().create(content=content, title=title)
         else:
-            PUBLIC_STORAGE.save(name=content.name, content=content)
-            publicfile = self.model(content=content)
-        publicfile.save(using=self._db)
-        return publicfile
+            return super().create(content=content, title=content.name)
+        # if title:
+        #     publicfile = self.model(content=content, title=title)
+        #     PUBLIC_STORAGE.save(name=title, content=content)
+        # else:
+        #     PUBLIC_STORAGE.save(name=content.name, content=content)
+        #     publicfile = self.model(content=content)
+        # publicfile.save(using=self._db)
+        # return publicfile
     
     def remove_expired_and_get_existing(self):
         self.filter(
