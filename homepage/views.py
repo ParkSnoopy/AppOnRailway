@@ -16,16 +16,13 @@ def home(request):
     if request.user.is_authenticated:
         nickname = Profile.objects.get( user=request.user ).nickname
     
-    nw = timezone.now()
-    lc = timezone.localtime()
-    
     return render(
         request, 
         'homepage/home.html', 
         {
             'nickname': nickname, 
-            'now': nw, 
-            'local': lc, 
+            'now': timezone.now(), 
+            'local': timezone.localtime(), 
         }
     )
 
