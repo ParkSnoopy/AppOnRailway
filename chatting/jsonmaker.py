@@ -9,7 +9,7 @@ import json
 
 
 def is_sameuser(user0, user1, timediff):
-    if timediff < timedelta(minutes=10):
+    if timedelta(minutes=-5) < timediff < timedelta(minutes=5):
         return user0 == user1
     return False
 
@@ -28,7 +28,7 @@ def process_chatlog(chatlog:dict, user0:int, user1:int, req_user, user_obj, time
     return chatlog
 
 def add_separator(resultlogs:list, chatlog:dict, timediff:timedelta):
-    if timediff > timedelta(hours=1):
+    if timedelta(hours=-1) > timediff > timedelta(hours=1):
         resultlogs.append(
             {
                 "id": chatlog['id'],
