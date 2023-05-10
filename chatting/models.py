@@ -60,7 +60,7 @@ class ChatlogRetrieveManager(models.Manager):
 
 class ChatlogManager(models.Manager):
     
-    def create(self, chatroom, user, sent_at=None, text_content=None, file_content=None):
+    def create(self, chatroom, user, text_content=None, file_content=None):
         if chatroom:
             chatroom = Chatroom.objects.get(pk=chatroom)
             
