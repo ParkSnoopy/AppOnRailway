@@ -27,7 +27,8 @@ class Chatroom(models.Model):
 class ChatlogRetrieveManager(models.Manager):
     
     def get_queryset(self):
-        return super().get_queryset().filter( sent_at__gte = timezone.now() - timedelta(days=self.days_before) )
+        currtime = timezone.now()
+        return super().get_queryset().filter( sent_at__gte = currtime - timedelta(days=self.days_before) )
     
     def set_days_before(self, days_before=None):
         self.days_before = days_before if days_before else self.default_days_before
@@ -96,7 +97,7 @@ class Chatlog(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     text_content = models.TextField(max_length=512, blank=True, null=True)
     file_content = models.ImageField(upload_to='filecontent/', blank=True, null=True)
-    sent_at = models.DateTimeField(default=timezone.now)
+    sent_at = models.DateTimeField(default=timezone.localtime)
     
     
     chatlogRetriever = ChatlogRetrieveManager()
