@@ -47,7 +47,7 @@ class ChatlogRetrieveManager(models.Manager):
     def get_logs_from_to(self, roompk, frompk=0, topk=100):
         logs = self.get_queryset() \
             .filter( chatroom = roompk ) \
-            .filter( pk__gte = frompk ) \
+            .filter( pk__gt = frompk ) \
             .filter( pk__lt = topk )
         
         return list( logs.values() )
