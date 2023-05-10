@@ -2,7 +2,7 @@
 # from django.utils import timezone
 from django.conf import settings
 
-from .models import Profile#, User, 
+from .models import Profile, User
 
 from datetime import timedelta
 import json
@@ -20,11 +20,12 @@ def chatlogs_to_json(request, chatlogs, is_first):
     for index, chatlog in enumerate(chatlogs):
         chatlog = dict(**chatlog)
         
+        user_obj = User.objects.get(pk=chatlog['user_id'])
         
         chatlog['isText'] = True if ( not chatlog.get('file_content') ) else False
         
-        chatlog['fromSelf'] = True if ( request.user == chatlog['user_id'] ) else False
-        chatlog['username'] = Profile.objects.get( user=chatlog['user_id'] ).nickname
+        chatlog['fromSelf'] = True if ( request.user == user_obj ) else False
+        chatlog['username'] = Profile.objects.get( user=user_obj ).nickname
         
         chatlog['sentAt'] = chatlog['sent_at'].strftime(settings.STRFTIME_FORMAT)
         
@@ -52,6 +53,7 @@ def chatlogs_to_json(request, chatlogs, is_first):
         
         chatlog.pop('user_id')
         chatlog.pop('sent_at')
+        chatlog.pop('chatroom_id')
         resultlogs.append(chatlog)
     
     resultlogs = resultlogs[::-1]
