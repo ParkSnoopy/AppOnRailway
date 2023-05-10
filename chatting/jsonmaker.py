@@ -15,9 +15,28 @@ import json
 #     not_first = False, 
 # )
 
-def chatlogs_to_json(request, chatlogs, is_first):    
+def chatlogs_to_json(request, chatlogs, is_first):
     resultlogs = []
-    for index, chatlog in enumerate(chatlogs):
+    if is_first and chatlogs:
+        head = dict(**chatlogs[0])
+        resultlogs.append(
+            {
+                "id": head['id'],
+                "text_content": "",
+                "file_content": "<<<TYPE::SEPARATOR>>>",
+                "isText": False,
+                "sentAt": head['sent_at'].strftime(settings.SEPARATOR_FORMAT),
+            }
+        )
+        head.pop('user_id')
+        head.pop('sent_at')
+        head.pop('chatroom_id')
+        resultlogs.append(
+            head
+        )
+        
+    for index, chatlog in enumerate(chatlogs[1:]):
+        index += 1
         chatlog = dict(**chatlog)
         
         user_obj = User.objects.get(pk=chatlogs[index]['user_id'])
@@ -29,13 +48,14 @@ def chatlogs_to_json(request, chatlogs, is_first):
         
         chatlog['sentAt'] = chatlogs[index]['sent_at'].strftime(settings.STRFTIME_FORMAT)
         
-        chatlog['sameuser'] = True
+        chatlog['sameuser'] = chatlogs[index-1]['user_id'] == chatlogs[index]['user_id']
         
-        if ( not is_first ) and ( chatlogs[index-1]['sent_at'] > ( chatlogs[index]['sent_at'] + timedelta(minutes=-5) ) ):
-            chatlogs[index]['sameuser'] = chatlogs[index-1]['user_id'] == chatlogs[index]['user_id']
+        timediff = chatlogs[index]['sent_at'] - chatlogs[index-1]['sent_at']
+        
+        if timedelta(hours=1) > timediff > timedelta(minutes=5):
+            chatlogs[index]['sameuser'] = False
             
-        elif is_first or chatlogs[index-1]['sent_at'] < ( chatlogs[index]['sent_at'] + timedelta(hours=-1) ):
-            # if is_first: USER_VARS.set(not_first=True)
+        if timediff > timedelta(hours=1):
             resultlogs.append(
                 {
                     "id": chatlog['id'],
@@ -56,10 +76,7 @@ def chatlogs_to_json(request, chatlogs, is_first):
         resultlogs.append(chatlog)
     
     resultlogs = resultlogs[::-1]
-    # if not is_first:
-    #     chatlogs.pop()
     
-    # USER_VARS.set(not_first=False)
     return json.dumps(resultlogs, indent=2)
 
 
