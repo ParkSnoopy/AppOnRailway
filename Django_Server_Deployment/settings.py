@@ -141,7 +141,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = os.environ['TIME_ZONE'] # CN - Asia/Harbin
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
