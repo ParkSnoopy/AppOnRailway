@@ -36,10 +36,12 @@ def chatlogs_to_json(request, chatlogs, is_first):
         chatlog['sameuser'] = True
         
         if ( not is_first or USER_VARS.get('not_first') ) and USER_VARS.get( 'last_send_time' ) > ( this_sent_time + timedelta( minutes = -5 ) ):
-            chatlog['sameuser'] = False#USER_VARS.get('last_send_user') == chatuser
+            chatlog['sameuser'] = USER_VARS.get('last_send_user') == chatuser
+        else:
+            chatlog['sameuser'] = False
             
             
-        elif is_first or USER_VARS.get( 'last_send_time' ) < ( this_sent_time + timedelta( hours= -1 ) ):
+        if is_first or USER_VARS.get( 'last_send_time' ) < ( this_sent_time + timedelta( hours= -1 ) ):
             if is_first: USER_VARS.set(not_first=True)
             chatlogs.insert(
                 idx, 
@@ -54,7 +56,6 @@ def chatlogs_to_json(request, chatlogs, is_first):
             )
             idx += 1
             
-            chatlog['sameuser'] = False
                     
             
         USER_VARS.set(
