@@ -145,6 +145,8 @@ TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = False
 
+USE_L10N = False
+
 USE_TZ = False
 
 
