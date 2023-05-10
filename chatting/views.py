@@ -74,7 +74,7 @@ def new_filelog(request, id):
 @login_required
 def json_chat_logs(request, id, frompk):
     
-    chatlogs = Chatlog.chatlogRetriever.get_logs_from_to(roompk=id, frompk=frompk, topk=10+frompk)
+    chatlogs = Chatlog.chatlogRetriever.get_logs_from_to(roompk=id, frompk=frompk, topk=4+frompk)
     
     json_chatlogs = chatlogs_to_json( request, chatlogs, is_first=(frompk==0) )
     

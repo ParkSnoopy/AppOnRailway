@@ -8,18 +8,23 @@ from datetime import timedelta
 import json
 
 
-def is_sameuser(chatlogs, index, timediff):
-    if timedelta(minutes=5) < timediff:
-        return False
-    else:
-        return chatlogs[index-1]['user_id'] == chatlogs[index]['user_id']
+def is_sameuser(user0, user1, timediff):
+    if timediff < timedelta(minutes=10):
+        return user0 == user1
+    return False
 
-def process_chatlog(chatlog:dict, chatlogs:list, index:int, req_user, user_obj, timediff) -> dict:
-    chatlog['isText'] = True if ( not chatlogs[index].get('file_content') ) else False
+def process_chatlog(chatlog:dict, user0:int, user1:int, req_user, user_obj, timediff) -> dict:
+    
+    chatlog['isText'] = True if ( not chatlog.get('file_content') ) else False
+    
     chatlog['fromSelf'] = True if ( req_user == user_obj ) else False
+    
     chatlog['username'] = Profile.objects.get( user=user_obj ).nickname
-    chatlog['sentAt'] = chatlogs[index]['sent_at'].strftime(settings.STRFTIME_FORMAT)
-    chatlog['sameuser'] = is_sameuser(chatlogs, index, timediff)
+    
+    chatlog['sentAt'] = chatlog['sent_at'].strftime(settings.STRFTIME_FORMAT)
+    
+    chatlog['sameuser'] = is_sameuser( user0, user1, timediff )
+    
     return chatlog
 
 def add_separator(resultlogs:list, chatlog:dict, timediff:timedelta):
@@ -67,7 +72,10 @@ def chatlogs_to_json(request, chatlogs, is_first):
         timediff = chatlogs[index]['sent_at'] - chatlogs[index-1]['sent_at']
         user_obj = User.objects.get(pk=chatlogs[index]['user_id'])
         
-        chatlog = process_chatlog(chatlog, chatlogs, index, request.user, user_obj, timediff)
+        user0 = chatlogs[index-1]['user_id']
+        user1 = chatlogs[ index ]['user_id']
+        
+        chatlog = process_chatlog(chatlog, user0, user1, request.user, user_obj, timediff)
         add_separator(resultlogs, chatlog, timediff)
         chatlog = pop_unused(chatlog)
         
