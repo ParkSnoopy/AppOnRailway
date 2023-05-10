@@ -62,6 +62,8 @@ def chatlogs_to_json(request, chatlogs, is_first):
         head = dict(**chatlogs[0])
         add_header(resultlogs, head)
         head['fromSelf'] = True if ( request.user == User.objects.get(pk=head['id']) ) else False
+        head['isText'] = True if ( not head.get('file_content') ) else False
+        head['sentAt'] = head['sent_at'].strftime(settings.STRFTIME_FORMAT)
         head = pop_unused(head)
         resultlogs.append(head)
         
