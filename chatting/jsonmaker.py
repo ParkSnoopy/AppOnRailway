@@ -20,21 +20,21 @@ def chatlogs_to_json(request, chatlogs, is_first):
     for index, chatlog in enumerate(chatlogs):
         chatlog = dict(**chatlog)
         
-        user_obj = User.objects.get(pk=chatlog['user_id'])
+        user_obj = User.objects.get(pk=chatlogs[index]['user_id'])
         
-        chatlog['isText'] = True if ( not chatlog.get('file_content') ) else False
+        chatlog['isText'] = True if ( not chatlogs[index].get('file_content') ) else False
         
         chatlog['fromSelf'] = True if ( request.user == user_obj ) else False
         chatlog['username'] = Profile.objects.get( user=user_obj ).nickname
         
-        chatlog['sentAt'] = chatlog['sent_at'].strftime(settings.STRFTIME_FORMAT)
+        chatlog['sentAt'] = chatlogs[index]['sent_at'].strftime(settings.STRFTIME_FORMAT)
         
         chatlog['sameuser'] = True
         
-        if ( not is_first ) and chatlogs[index-1]['sent_at'] < ( chatlog['sent_at'] + timedelta(minutes=-5) ):
-            chatlog['sameuser'] = chatlogs[index-1]['user_id'] == chatlog['user_id']
+        if ( not is_first ) and chatlogs[index-1]['sent_at'] < ( chatlogs[index]['sent_at'] + timedelta(minutes=-5) ):
+            chatlogs[index]['sameuser'] = chatlogs[index-1]['user_id'] == chatlogs[index]['user_id']
             
-        elif is_first or chatlogs[index-1]['sent_at'] < ( chatlog['sent_at'] + timedelta(hours=-1) ):
+        elif is_first or chatlogs[index-1]['sent_at'] < ( chatlogs[index]['sent_at'] + timedelta(hours=-1) ):
             # if is_first: USER_VARS.set(not_first=True)
             resultlogs.append(
                 {
