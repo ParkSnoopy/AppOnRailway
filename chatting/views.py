@@ -41,6 +41,7 @@ def new_chatlog(request, id):
                 chatroom=id, 
                 user=request.user, 
                 text_content=chatlog, 
+                sent_at=timezone.localtime(), 
             )
     
             return HttpResponse(status=200)
@@ -63,6 +64,7 @@ def new_filelog(request, id):
                     chatroom=id, 
                     user=request.user, 
                     file_content=filename, 
+                    sent_at=timezone.localtime(), 
                 )
     
             return HttpResponse(status=200)

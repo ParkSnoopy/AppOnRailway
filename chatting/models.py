@@ -60,7 +60,7 @@ class ChatlogRetrieveManager(models.Manager):
 
 class ChatlogManager(models.Manager):
     
-    def create(self, chatroom, user, text_content=None, file_content=None):
+    def create(self, chatroom, user, sent_at, text_content=None, file_content=None):
         if chatroom:
             chatroom = Chatroom.objects.get(pk=chatroom)
             
@@ -73,6 +73,7 @@ class ChatlogManager(models.Manager):
                 chatroom     = chatroom, 
                 user         = user, 
                 file_content = file_content, 
+                sent_at      = sent_at, 
             )
             
         elif text_content:
@@ -80,6 +81,7 @@ class ChatlogManager(models.Manager):
                 chatroom     = chatroom, 
                 user         = user, 
                 text_content = text_content, 
+                sent_at      = sent_at, 
             )
         
         chatlog.save(using=self._db)
@@ -94,7 +96,7 @@ class Chatlog(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     text_content = models.TextField(max_length=512, blank=True, null=True)
     file_content = models.ImageField(upload_to='filecontent/', blank=True, null=True)
-    sent_at = models.DateTimeField(default=timezone.localtime)
+    sent_at = models.DateTimeField()
     
     
     chatlogRetriever = ChatlogRetrieveManager()
