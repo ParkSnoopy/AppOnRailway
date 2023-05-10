@@ -9,9 +9,7 @@ import os
 
 # Create your views here.
 
-# PUBLIC_STORAGE = FileSystemStorage(
-#     location='public/', 
-# )
+
 
 def filelist(request):
     
@@ -45,7 +43,7 @@ def upload_publicfile(request):
         if request.FILES:
             title = request.POST['title']
             
-            publicfile = Publicfile.objects.create(
+            Publicfile.objects.create(
                 content=request.FILES['file'], 
                 title=(title if title else None), 
             )

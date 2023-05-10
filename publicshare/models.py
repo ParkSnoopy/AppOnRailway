@@ -9,9 +9,6 @@ import os
 # Create your models here.
 
 
-# PUBLIC_STORAGE = FileSystemStorage(
-#     location='public/', 
-# )
 
 class PublicfileManager(models.Manager):
     
