@@ -55,12 +55,12 @@ def chatlogs_to_json(request, chatlogs, is_first):
         chatlog.pop('sent_at')
         resultlogs.append(chatlog)
     
-    chatlogs = chatlogs[::-1]
-    if not is_first:
-        chatlogs.pop()
+    resultlogs = resultlogs[::-1]
+    # if not is_first:
+    #     chatlogs.pop()
     
     # USER_VARS.set(not_first=False)
-    return json.dumps(chatlogs)
+    return json.dumps(resultlogs)
 
 
 def convlist_to_json(request, convlist):
