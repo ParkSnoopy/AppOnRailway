@@ -38,7 +38,7 @@ def chatlogs_to_json(request, chatlogs, is_first):
         if ( not is_first or USER_VARS.get('not_first') ) and USER_VARS.get( 'last_send_time' ) > ( this_sent_time + timedelta( minutes = -5 ) ):
             chatlog['sameuser'] = USER_VARS.get('last_send_user') == chatuser
             
-        elif is_first or USER_VARS.get( 'last_send_time' ) < ( this_sent_time + timedelta( hours= -1 ) ):
+        elif is_first or USER_VARS.get( 'last_send_time' ) > ( this_sent_time + timedelta( hours= -1 ) ):
             if is_first: USER_VARS.set(not_first=True)
             chatlogs.insert(
                 idx, 
