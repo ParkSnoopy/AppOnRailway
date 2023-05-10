@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import FileResponse
 from django.conf import settings
+from django.utils import timezone
 
 
 from account.models import Profile
@@ -15,7 +16,18 @@ def home(request):
     if request.user.is_authenticated:
         nickname = Profile.objects.get( user=request.user ).nickname
     
-    return render(request, 'homepage/home.html', {'nickname': nickname})
+    nw = timezone.now()
+    lc = timezone.localtime()
+    
+    return render(
+        request, 
+        'homepage/home.html', 
+        {
+            'nickname': nickname, 
+            'now': nw, 
+            'local': lc, 
+        }
+    )
 
 
 

@@ -21,7 +21,22 @@
 <div id="main-container" class="container-lg pt-3">
   <div class="jumbotron text-center">
     <div id="innerelements-widthcontrol">
-
+    	<span>
+    		<p class="text-secondary">
+    			timezone now: 
+    		</p>
+    		<p class="text-success">
+    			{{now}}
+    		</p>
+    	</span>
+    	<span>
+    		<p class="text-secondary">
+    			timezone local:
+    		</p>
+    		<p>
+    			{{local}}
+    		</p>
+    	</span>
       {% if user.is_authenticated %}
 				<h5>Welcome!</h5><br>
 				<h1>{{nickname}}</h1><br>
