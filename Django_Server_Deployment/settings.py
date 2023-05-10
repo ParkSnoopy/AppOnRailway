@@ -34,10 +34,10 @@ ALLOWED_HOSTS = ['app.sunwoo.top', ]
 # Application definition
 
 INSTALLED_APPS = [
-    # Account
+    # Account Manage
     'account', 
     
-    # USER APPS
+    # APPS
     'homepage', 
     'chatting', 
     'updatemanager', 
@@ -51,10 +51,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    # TEMP
+    # FOR VARHOLDER
     'liargame', 
     
-    # PKGS
+    # HOSTING REQUIRED PKGS
     'whitenoise'
 ]
 
@@ -141,11 +141,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Asia/Dubai'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_L10N = True
+
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
