@@ -8,71 +8,70 @@ from datetime import timedelta
 import json
 
 
-# USER_VARS = settings.LIARGAME_USER_VARS
-# USER_VARS.set(
-#     last_send_user = -1, 
-#     last_send_time = timezone.now() + timedelta( weeks = -2 ), 
-#     not_first = False, 
-# )
+def is_sameuser(chatlogs, index, timediff):
+    if timedelta(minutes=5) < timediff:
+        return False
+    else:
+        return chatlogs[index-1]['user_id'] == chatlogs[index]['user_id']
+
+def process_chatlog(chatlog:dict, chatlogs:list, index:int, req_user, user_obj, timediff) -> dict:
+    chatlog['isText'] = True if ( not chatlogs[index].get('file_content') ) else False
+    chatlog['fromSelf'] = True if ( req_user == user_obj ) else False
+    chatlog['username'] = Profile.objects.get( user=user_obj ).nickname
+    chatlog['sentAt'] = chatlogs[index]['sent_at'].strftime(settings.STRFTIME_FORMAT)
+    chatlog['sameuser'] = is_sameuser(chatlogs, index, timediff)
+    return chatlog
+
+def add_separator(resultlogs:list, chatlog:dict, timediff:timedelta):
+    if timediff > timedelta(hours=1):
+        resultlogs.append(
+            {
+                "id": chatlog['id'],
+                "text_content": "",
+                "file_content": "<<<TYPE::SEPARATOR>>>",
+                "isText": False,
+                "sentAt": chatlog['sent_at'].strftime(settings.SEPARATOR_FORMAT),
+            }
+        )
+
+def pop_unused(chatlog:dict) -> dict:
+    chatlog.pop('user_id')
+    chatlog.pop('sent_at')
+    chatlog.pop('chatroom_id')
+    return chatlog
+
+def add_header(resultlogs:list, head:dict):
+    resultlogs.append(
+        {
+            "id": head['id'],
+            "text_content": "",
+            "file_content": "<<<TYPE::SEPARATOR>>>",
+            "isText": False,
+            "sentAt": head['sent_at'].strftime(settings.SEPARATOR_FORMAT),
+        }
+    )
 
 def chatlogs_to_json(request, chatlogs, is_first):
     resultlogs = []
     if is_first and chatlogs:
         head = dict(**chatlogs[0])
-        resultlogs.append(
-            {
-                "id": head['id'],
-                "text_content": "",
-                "file_content": "<<<TYPE::SEPARATOR>>>",
-                "isText": False,
-                "sentAt": head['sent_at'].strftime(settings.SEPARATOR_FORMAT),
-            }
-        )
-        head.pop('user_id')
-        head.pop('sent_at')
-        head.pop('chatroom_id')
-        resultlogs.append(
-            head
-        )
+        add_header(resultlogs, head)
+        head = pop_unused(head)
+        resultlogs.append(head)
         
-    for index, chatlog in enumerate(chatlogs[1:]):
-        index += 1
+    for index, chatlog in enumerate(chatlogs):
+        if index == 0:
+            continue
+        
         chatlog = dict(**chatlog)
         
+        timediff = chatlogs[index]['sent_at'] - chatlogs[index-1]['sent_at']
         user_obj = User.objects.get(pk=chatlogs[index]['user_id'])
         
-        chatlog['isText'] = True if ( not chatlogs[index].get('file_content') ) else False
+        chatlog = process_chatlog(chatlog, chatlogs, index, request.user, user_obj, timediff)
+        add_separator(resultlogs, chatlog, timediff)
+        chatlog = pop_unused(chatlog)
         
-        chatlog['fromSelf'] = True if ( request.user == user_obj ) else False
-        chatlog['username'] = Profile.objects.get( user=user_obj ).nickname
-        
-        chatlog['sentAt'] = chatlogs[index]['sent_at'].strftime(settings.STRFTIME_FORMAT)
-        
-        chatlog['sameuser'] = chatlogs[index-1]['user_id'] == chatlogs[index]['user_id']
-        
-        timediff = chatlogs[index]['sent_at'] - chatlogs[index-1]['sent_at']
-        
-        if timedelta(hours=1) > timediff > timedelta(minutes=5):
-            chatlogs[index]['sameuser'] = False
-            
-        if timediff > timedelta(hours=1):
-            resultlogs.append(
-                {
-                    "id": chatlog['id'],
-                    "text_content": "",
-                    "file_content": "<<<TYPE::SEPARATOR>>>",
-                    "isText": False,
-                    "sentAt": chatlog['sent_at'].strftime(settings.SEPARATOR_FORMAT),
-                }
-            )
-            chatlog['sameuser'] = False
-        else:
-            chatlog['sameuser'] = False
-        
-        
-        chatlog.pop('user_id')
-        chatlog.pop('sent_at')
-        chatlog.pop('chatroom_id')
         resultlogs.append(chatlog)
     
     resultlogs = resultlogs[::-1]
