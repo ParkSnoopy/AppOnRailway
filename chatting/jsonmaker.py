@@ -61,7 +61,7 @@ def chatlogs_to_json(request, chatlogs, is_first):
     if is_first and chatlogs:
         head = dict(**chatlogs[0])
         add_header(resultlogs, head)
-        head['fromSelf'] = True if ( request.user == head['id'] ) else False
+        head['fromSelf'] = True if ( request.user == User.objects.get(pk=head['id']) ) else False
         head = pop_unused(head)
         resultlogs.append(head)
         
