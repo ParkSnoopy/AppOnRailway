@@ -141,14 +141,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-USE_TZ = False
-
 TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
 USE_L10N = False
 
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
