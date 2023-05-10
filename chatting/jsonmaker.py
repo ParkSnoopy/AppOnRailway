@@ -31,16 +31,15 @@ def chatlogs_to_json(request, chatlogs, is_first):
         
         chatlog['sameuser'] = True
         
-        if ( not is_first ) and chatlogs[index-1]['sent_at'] > ( chatlog['sent_at'] + timedelta(minutes=-5) ):
+        if ( not is_first ) and chatlogs[index-1]['sent_at'] < ( chatlog['sent_at'] + timedelta(minutes=-5) ):
             chatlog['sameuser'] = chatlogs[index-1]['user_id'] == chatlog['user_id']
             
-        elif is_first or chatlogs[index-1]['sent_at'] > ( chatlog['sent_at'] + timedelta(hours=-1) ):
+        elif is_first or chatlogs[index-1]['sent_at'] < ( chatlog['sent_at'] + timedelta(hours=-1) ):
             # if is_first: USER_VARS.set(not_first=True)
             resultlogs.append(
                 {
-                    "id": chatlog['id']-1,
-                    "chatroom_id": chatlog['chatroom_id'],
-                    "text_content": None,
+                    "id": chatlog['id'],
+                    "text_content": "",
                     "file_content": "<<<TYPE::SEPARATOR>>>",
                     "isText": False,
                     "sentAt": chatlog['sent_at'].strftime(settings.SEPARATOR_FORMAT),
