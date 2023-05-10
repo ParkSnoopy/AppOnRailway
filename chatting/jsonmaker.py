@@ -62,9 +62,12 @@ def add_header(resultlogs:list, head:dict):
 def chatlogs_to_json(request, chatlogs, is_first):
     resultlogs = []
     if is_first and chatlogs:
+        """
+        Head 또한 chatlog 이기 때문에 id=chatlog.pk 라는 것 기억
+        """
         head = dict(**chatlogs[0])
         add_header(resultlogs, head)
-        head_user = User.objects.get(pk=head.get('id'))
+        head_user = User.objects.get( pk = head['user_id'] )
         head['fromSelf'] = True if ( request.user == head_user ) else False
         head['isText'] = True if ( not head.get('file_content') ) else False
         head['sentAt'] = head.get('sent_at').strftime(settings.STRFTIME_FORMAT)
