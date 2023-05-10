@@ -59,9 +59,8 @@ def chatlogs_to_json(request, chatlogs, is_first):
         head = pop_unused(head)
         resultlogs.append(head)
         
-    for index, chatlog in enumerate(chatlogs):
-        if index == 0:
-            continue
+    for index, chatlog in enumerate(chatlogs[1:]):
+        index += 1
         
         chatlog = dict(**chatlog)
         
