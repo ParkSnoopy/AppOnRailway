@@ -68,7 +68,7 @@ class ChatlogManager(models.Manager):
         if not chatroom:
             chatroom = Chatroom.objects.all().first()
         
-        time = timezone.now() + timedelta( days=settings.UTC_OFFSET )
+        time = timezone.now() + timedelta( hours=settings.UTC_OFFSET )
         
         if file_content:
             
