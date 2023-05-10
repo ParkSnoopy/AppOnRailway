@@ -35,8 +35,7 @@ def chatlogs_to_json(request, chatlogs, is_first):
             
         elif is_first or chatlogs[index-1]['sent_at'] > ( chatlog['sent_at'] + timedelta(hours=-1) ):
             # if is_first: USER_VARS.set(not_first=True)
-            resultlogs.insert(
-                len(resultlogs)-1, 
+            resultlogs.append(
                 {
                     "id": chatlog['id']-1,
                     "chatroom_id": chatlog['chatroom_id'],
