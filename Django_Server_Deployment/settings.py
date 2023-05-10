@@ -181,7 +181,7 @@ from liargame.varholder import VarHolder
 LIARGAME_USER_VARS = VarHolder()
 
 
-STRFTIME_FORMAT = "%b %d, %H:%M"
+STRFTIME_FORMAT = "%H:%M"
 SEPARATOR_FORMAT = "%Y %m %d, %A, %H:%M"
 
 

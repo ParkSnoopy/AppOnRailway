@@ -1,72 +1,65 @@
 
-from django.utils import timezone
+# from django.utils import timezone
 from django.conf import settings
 
-from .models import User, Profile
+from .models import Profile#, User, 
 
 from datetime import timedelta
 import json
 
 
-USER_VARS = settings.LIARGAME_USER_VARS
-USER_VARS.set(
-    last_send_user = -1, 
-    last_send_time = timezone.now() + timedelta( weeks = -2 ), 
-    not_first = False, 
-)
+# USER_VARS = settings.LIARGAME_USER_VARS
+# USER_VARS.set(
+#     last_send_user = -1, 
+#     last_send_time = timezone.now() + timedelta( weeks = -2 ), 
+#     not_first = False, 
+# )
 
 def chatlogs_to_json(request, chatlogs, is_first):    
-    
-    idx = -1
-    while idx+1 < len(chatlogs):
-        idx += 1
+    resultlogs = []
+    for index, chatlog in enumerate(chatlogs):
+        chatlog = dict(**chatlog)
         
-        chatlog = chatlogs[ idx ]
-        chatuser = User.objects.get( pk = chatlog.pop('user_id') )
-        
-        this_sent_time = chatlog.pop('sent_at')
         
         chatlog['isText'] = True if ( not chatlog.get('file_content') ) else False
         
-        chatlog['fromSelf'] = True if ( request.user == chatuser ) else False
-        chatlog['username'] = Profile.objects.get( user=chatuser ).nickname
+        chatlog['fromSelf'] = True if ( request.user == chatlog['user_id'] ) else False
+        chatlog['username'] = Profile.objects.get( user=chatlog['user_id'] ).nickname
         
-        chatlog['sentAt'] = this_sent_time.strftime(settings.STRFTIME_FORMAT)
+        chatlog['sentAt'] = chatlog['sent_at'].strftime(settings.STRFTIME_FORMAT)
         
         chatlog['sameuser'] = True
         
-        if ( not is_first or USER_VARS.get('not_first') ) and USER_VARS.get( 'last_send_time' ) > ( this_sent_time + timedelta( minutes = -5 ) ):
-            chatlog['sameuser'] = USER_VARS.get('last_send_user') == chatuser
+        if ( not is_first ) and chatlogs[index-1]['sent_at'] > ( chatlog['sent_at'] + timedelta(minutes=-5) ):
+            chatlog['sameuser'] = chatlogs[index-1]['user_id'] == chatlog['user_id']
             
-        elif is_first or USER_VARS.get( 'last_send_time' ) > ( this_sent_time + timedelta( hours= -1 ) ):
-            if is_first: USER_VARS.set(not_first=True)
-            chatlogs.insert(
-                idx, 
+        elif is_first or chatlogs[index-1]['sent_at'] > ( chatlog['sent_at'] + timedelta(hours=-1) ):
+            # if is_first: USER_VARS.set(not_first=True)
+            resultlogs.insert(
+                len(resultlogs)-1, 
                 {
                     "id": chatlog['id']-1,
                     "chatroom_id": chatlog['chatroom_id'],
                     "text_content": None,
                     "file_content": "<<<TYPE::SEPARATOR>>>",
                     "isText": False,
-                    "sentAt": this_sent_time.strftime(settings.SEPARATOR_FORMAT),
+                    "sentAt": chatlog['sent_at'].strftime(settings.SEPARATOR_FORMAT),
                 }
             )
-            idx += 1
             chatlog['sameuser'] = False
         else:
             chatlog['sameuser'] = False
-                    
-            
-        USER_VARS.set(
-            last_send_user = chatuser, 
-            last_send_time = this_sent_time
-        )
+        
+        
+        chatlog.pop('user_id')
+        chatlog.pop('sent_at')
+        resultlogs.append(chatlog)
     
     chatlogs = chatlogs[::-1]
     if not is_first:
         chatlogs.pop()
     
-    USER_VARS.set(not_first=False)
+    # USER_VARS.set(not_first=False)
     return json.dumps(chatlogs)
 
 
