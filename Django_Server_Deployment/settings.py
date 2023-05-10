@@ -25,7 +25,7 @@ import os
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # ALLOWED HOSTS
 ALLOWED_HOSTS = ['app.sunwoo.top', ]
@@ -188,19 +188,18 @@ SEPARATOR_FORMAT = "%Y %m %d, %A, %H:%M"
 
 
 
-if not DEBUG:
-    # PRODUCTION SETTINGS
-    
-    # SECURE_HSTS_SECONDS = 600
-    
-    CSRF_COOKIE_SECURE = True
-    SESSION_COOKIE_SECURE = True
-    
-    
-    CSRF_TRUSTED_ORIGINS = [
-        'https://app.sunwoo.top', 
-        'http://app.sunwoo.top',
-    ]
+# PRODUCTION SETTINGS
+
+# SECURE_HSTS_SECONDS = 600
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://app.sunwoo.top', 
+    'http://app.sunwoo.top',
+]
 
 
 
