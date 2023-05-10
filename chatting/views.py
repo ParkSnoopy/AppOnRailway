@@ -2,14 +2,11 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.forms.models import model_to_dict
-from django.conf import settings
-from django.utils import timezone
 
 from .models import Chatlog, Chatroom
 from .jsonmaker import chatlogs_to_json, convlist_to_json, roominfo_to_json
 from .fetchfile_handler import generate_filename, save_file
 
-from datetime import timedelta
 import json
 
 # Create your views here.
@@ -41,7 +38,6 @@ def new_chatlog(request, id):
                 chatroom=id, 
                 user=request.user, 
                 text_content=chatlog, 
-                sent_at = timezone.now()+timedelta( days=settings.UTC_OFFSET ), 
             )
     
             return HttpResponse(status=200)
@@ -64,7 +60,6 @@ def new_filelog(request, id):
                     chatroom=id, 
                     user=request.user, 
                     file_content=filename, 
-                    sent_at = timezone.now()+timedelta( days=settings.UTC_OFFSET ), 
                 )
     
             return HttpResponse(status=200)
