@@ -61,6 +61,7 @@ def chatlogs_to_json(request, chatlogs, is_first):
     if is_first and chatlogs:
         head = dict(**chatlogs[0])
         add_header(resultlogs, head)
+        head['fromSelf'] = True if ( request.user == head['id'] ) else False
         head = pop_unused(head)
         resultlogs.append(head)
         
@@ -75,8 +76,19 @@ def chatlogs_to_json(request, chatlogs, is_first):
         user0 = chatlogs[index-1]['user_id']
         user1 = chatlogs[ index ]['user_id']
         
-        chatlog = process_chatlog(chatlog, user0, user1, request.user, user_obj, timediff)
-        add_separator(resultlogs, chatlog, timediff)
+        chatlog = process_chatlog(
+            chatlog=chatlog, 
+            user0=user0, 
+            user1=user1, 
+            req_user=request.user, 
+            user_obj=user_obj, 
+            timediff=timediff
+        )
+        add_separator(
+            resultlogs=resultlogs, 
+            chatlog=chatlog, 
+            timediff=timediff
+        )
         chatlog = pop_unused(chatlog)
         
         resultlogs.append(chatlog)
