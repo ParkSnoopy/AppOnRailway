@@ -97,7 +97,7 @@ class Chatlog(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     text_content = models.TextField(max_length=512, blank=True, null=True)
     file_content = models.ImageField(upload_to='filecontent/', blank=True, null=True)
-    sent_at = models.DateTimeField(default=timezone.localtime)
+    sent_at = models.DateTimeField(default=timezone.now)
     
     
     chatlogRetriever = ChatlogRetrieveManager()
