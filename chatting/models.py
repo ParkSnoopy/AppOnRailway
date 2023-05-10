@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.utils import timezone
 
 from datetime import timedelta
@@ -27,7 +28,7 @@ class Chatroom(models.Model):
 class ChatlogRetrieveManager(models.Manager):
     
     def get_queryset(self):
-        currtime = timezone.localtime()
+        currtime = timezone.now()
         return super().get_queryset().filter( sent_at__gte = currtime - timedelta(days=self.days_before) )
     
     def set_days_before(self, days_before=None):
@@ -67,7 +68,7 @@ class ChatlogManager(models.Manager):
         if not chatroom:
             chatroom = Chatroom.objects.all().first()
         
-        time = timezone.localtime()
+        time = timezone.now() + timedelta( days=settings.UTC_OFFSET )
         
         if file_content:
             

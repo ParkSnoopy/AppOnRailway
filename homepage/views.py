@@ -22,7 +22,6 @@ def home(request):
         {
             'nickname': nickname, 
             'now': timezone.now(), 
-            'local': timezone.localtime(), 
         }
     )
 
