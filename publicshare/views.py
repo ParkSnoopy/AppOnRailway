@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, FileResponse, Http404
+# from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 
 from .models import Publicfile
@@ -7,7 +8,10 @@ from .models import Publicfile
 import os
 
 # Create your views here.
-    
+
+# PUBLIC_STORAGE = FileSystemStorage(
+#     location='public/', 
+# )
 
 def filelist(request):
     
@@ -42,13 +46,13 @@ def upload_publicfile(request):
             title = request.POST['title']
             
             publicfile = Publicfile.objects.create(
-                content=request.FILES.get('file'), 
+                content=request.FILES['file'], 
                 title=(title if title else None), 
             )
             
-            with open( settings.MEDIA_ROOT / str(publicfile.content) , "wb") as output:
-                for chunk in request.FILES.get('file').chunks():
-                    output.write(chunk)
+            # with open( settings.MEDIA_ROOT / str(publicfile.content) , "wb") as output:
+            #     for chunk in request.FILES['file'].chunks():
+            #         output.write(chunk)
             
             return redirect('publicshare')
     
