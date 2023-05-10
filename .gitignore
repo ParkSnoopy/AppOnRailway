@@ -3,3 +3,5 @@ Django_Server_Deployment/.env
 *.sqlite3
 PostgreSQL_clean_tables.txt
 createsuperuser.txt
+*.pyc
+media/filecontent/ce1243353ab54b839b1b68769776bf80.image.png

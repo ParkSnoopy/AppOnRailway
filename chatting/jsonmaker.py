@@ -40,9 +40,12 @@ def add_separator(resultlogs:list, chatlog:dict, timediff:timedelta):
         )
 
 def pop_unused(chatlog:dict) -> dict:
-    chatlog.pop('user_id')
-    chatlog.pop('sent_at')
-    chatlog.pop('chatroom_id')
+    try: chatlog.pop('user_id')
+    except: pass
+    try: chatlog.pop('sent_at')
+    except: pass
+    try: chatlog.pop('chatroom_id')
+    except: pass
     return chatlog
 
 def add_header(resultlogs:list, head:dict):
@@ -63,7 +66,7 @@ def chatlogs_to_json(request, chatlogs, is_first):
         add_header(resultlogs, head)
         head['fromSelf'] = True if ( request.user == User.objects.get(pk=head['id']) ) else False
         head['isText'] = True if ( not head.get('file_content') ) else False
-        head['sentAt'] = head['sent_at'].strftime(settings.STRFTIME_FORMAT)
+        head['sentAt'] = head.get('sent_at').strftime(settings.STRFTIME_FORMAT)
         head = pop_unused(head)
         resultlogs.append(head)
         
@@ -97,7 +100,7 @@ def chatlogs_to_json(request, chatlogs, is_first):
     
     resultlogs = resultlogs[::-1]
     
-    return json.dumps(resultlogs, indent=2)
+    return json.dumps(resultlogs)
 
 
 def convlist_to_json(request, convlist):
