@@ -59,7 +59,7 @@ def chatlogs_to_json(request, chatlogs, is_first):
     #     chatlogs.pop()
     
     # USER_VARS.set(not_first=False)
-    return json.dumps(resultlogs)
+    return json.dumps(resultlogs, indent=2)
 
 
 def convlist_to_json(request, convlist):
