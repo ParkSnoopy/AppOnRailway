@@ -33,10 +33,10 @@ def chatlogs_to_json(request, chatlogs, is_first):
         
         chatlog['sentAt'] = this_sent_time.strftime(settings.STRFTIME_FORMAT)
         
-        chatlog['sameuser'] = False
+        chatlog['sameuser'] = True
         
         if ( not is_first or USER_VARS.get('not_first') ) and USER_VARS.get( 'last_send_time' ) > ( this_sent_time + timedelta( minutes = -5 ) ):
-            chatlog['sameuser'] = False # USER_VARS.get('last_send_user') == chatuser
+            chatlog['sameuser'] = False#USER_VARS.get('last_send_user') == chatuser
             
             
         elif is_first or USER_VARS.get( 'last_send_time' ) < ( this_sent_time + timedelta( hours= -1 ) ):
