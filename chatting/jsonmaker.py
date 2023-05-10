@@ -31,7 +31,7 @@ def chatlogs_to_json(request, chatlogs, is_first):
         
         chatlog['sameuser'] = True
         
-        if ( not is_first ) and chatlogs[index-1]['sent_at'] < ( chatlogs[index]['sent_at'] + timedelta(minutes=-5) ):
+        if ( not is_first ) and ( chatlogs[index-1]['sent_at'] > ( chatlogs[index]['sent_at'] + timedelta(minutes=-5) ) ):
             chatlogs[index]['sameuser'] = chatlogs[index-1]['user_id'] == chatlogs[index]['user_id']
             
         elif is_first or chatlogs[index-1]['sent_at'] < ( chatlogs[index]['sent_at'] + timedelta(hours=-1) ):
