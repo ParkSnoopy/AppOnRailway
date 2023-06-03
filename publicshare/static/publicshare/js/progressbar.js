@@ -43,14 +43,13 @@ uploadBtn.addEventListener('click', () => {
 	    }, 
 		error: function (error) {
 			console.log("error at percent " + percent)
-			console.log(error)
 			progressBox.innerHTML = `
 			<div class="progress">
 			  <div class="progress-bar bg-danger" role="progressbar" style="width: ${percent}%" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="100">
-			  	Something went wrong...
+			  	error
 			  </div>
 			</div><br>
-			<a href="/public/" type="button" class="btn btn-outline-danger btn-lg" style="width:80%;">돌아가기</a>
+			<a href="/public/" type="button" class="btn btn-outline-danger btn-lg">돌아가기</a>
 			`
 		}, 
 		cache: false, 
