@@ -202,7 +202,12 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 
-DATA_UPLOAD_MAX_MEMORY_SIZE = int(5e+7)
+FILE_UPLOAD_HANDLER = [
+    "django.core.files.uploadhandler.MemoryFileUploadHandler",
+    "django.core.files.uploadhandler.TemporaryFileUploadHandler",
+]
+
+# DATA_UPLOAD_MAX_MEMORY_SIZE = int(5e+7)
 
 
 

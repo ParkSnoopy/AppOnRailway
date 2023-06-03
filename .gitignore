@@ -1,7 +1,9 @@
 
-Django_Server_Deployment/.env
+*.env
 *.sqlite3
+*.pyc
+
 PostgreSQL_clean_tables.txt
 createsuperuser.txt
-*.pyc
-media/filecontent/ce1243353ab54b839b1b68769776bf80.image.png
+
+media/public/*
