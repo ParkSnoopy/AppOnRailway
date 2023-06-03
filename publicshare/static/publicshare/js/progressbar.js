@@ -9,12 +9,10 @@ uploadBtn.addEventListener('click', () => {
 	progressBox.style = "display:_;"
 	uploadBtn.style = "display:none;"
 
-	const filedata = fileinput.files[0]
-
 	const fd = new FormData()
 	fd.append('csrfmiddlewaretoken', csrftoken[0].value)
-	fd.append('file', filedata)
-	fd.append('title', filetitle)
+	fd.append('file', fileinput.files[0])
+	fd.append('title', filetitle.value)
 
 	$.ajax({
 		type: 'POST', 
@@ -38,9 +36,9 @@ uploadBtn.addEventListener('click', () => {
 			})
 			return xhr
 		}, 
-		success: function (response) {
-			console.log("success")
-		}, 
+		success: function (jsonResponse) {
+			window.location.href = jsonResponse.href
+	    }, 
 		error: function (error) {
 			console.log("error")
 		}, 

@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse, FileResponse, Http404
+from django.shortcuts import render
+from django.http import HttpResponse, FileResponse, JsonResponse, Http404
 # from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 
@@ -55,6 +55,4 @@ def upload_new(request):
             #     for chunk in request.FILES['file'].chunks():
             #         output.write(chunk)
             
-            return redirect('publicshare')
-    
-    return redirect('publicshare_upload')
+    return JsonResponse({"href": "/public/"})
