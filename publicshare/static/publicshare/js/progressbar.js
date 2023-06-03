@@ -14,6 +14,8 @@ uploadBtn.addEventListener('click', () => {
 	fd.append('file', fileinput.files[0])
 	fd.append('title', filetitle.value)
 
+	let percent = 0.0;
+
 	$.ajax({
 		type: 'POST', 
 		url: 'new/', 
@@ -25,7 +27,7 @@ uploadBtn.addEventListener('click', () => {
 		xhr: function () {
 			const xhr = new window.XMLHttpRequest()
 			xhr.upload.addEventListener('progress', (e) => {
-				const percent = ( 100 * e.loaded / e.total ).toFixed( 1 )
+				percent = ( 100 * e.loaded / e.total ).toFixed( 1 )
 				progressBox.innerHTML = `
 				<div class="progress">
 				  <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: ${percent}%" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="100">
@@ -40,7 +42,14 @@ uploadBtn.addEventListener('click', () => {
 			window.location.href = jsonResponse.href
 	    }, 
 		error: function (error) {
-			console.log("error")
+			console.log("error at percent " + percent)
+			progressBox.innerHTML = `
+			<div class="progress">
+			  <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" style="width: ${percent}%" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="100">
+			  	Something went wrong...
+			  </div>
+			</div>
+			`
 		}, 
 		cache: false, 
 		contentType: false, 
