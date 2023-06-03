@@ -8,6 +8,7 @@ urlpatterns = [
     
     path('shared/<str:filename>', views.get_publicfile),
     
-    path('upload/', views.upload_publicfile)
+    path('upload/', views.upload_form, name='publicshare_upload'), 
+    path('upload/new/', views.upload_new), 
     
 ]

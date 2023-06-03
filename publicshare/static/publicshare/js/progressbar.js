@@ -1,5 +1,6 @@
 
 const fileinput = document.getElementById('fileuploadForm')
+const filetitle = document.getElementById('titleForm')
 const uploadBtn = document.getElementById('upload-btn')
 const progressBox = document.getElementById('progress-box')
 const csrftoken = document.getElementsByName('csrfmiddlewaretoken')
@@ -13,10 +14,11 @@ uploadBtn.addEventListener('click', () => {
 	const fd = new FormData()
 	fd.append('csrfmiddlewaretoken', csrftoken[0].value)
 	fd.append('file', filedata)
+	fd.append('title', filetitle)
 
 	$.ajax({
 		type: 'POST', 
-		url: '#', 
+		url: 'new/', 
 		enctype: 'multipart/form-data', 
 		data: fd, 
 		beforeSend: function () {

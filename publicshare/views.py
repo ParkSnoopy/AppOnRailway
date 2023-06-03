@@ -35,8 +35,11 @@ def get_publicfile(request, filename:str):
     else:
         
         raise Http404()
-    
-def upload_publicfile(request):
+
+def upload_form(request):
+    return render(request, 'publicshare/upload.html')
+
+def upload_new(request):
     
     if request.method == "POST":
         
@@ -54,4 +57,4 @@ def upload_publicfile(request):
             
             return redirect('publicshare')
     
-    return render(request, 'publicshare/upload.html')
+    return redirect('publicshare_upload')
