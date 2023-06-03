@@ -43,6 +43,7 @@ uploadBtn.addEventListener('click', () => {
 	    }, 
 		error: function (error) {
 			console.log("error at percent " + percent)
+			console.log(error)
 			progressBox.innerHTML = `
 			<div class="progress">
 			  <div class="progress-bar bg-danger" role="progressbar" style="width: ${percent}%" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="100">

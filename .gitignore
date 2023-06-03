@@ -7,3 +7,4 @@ PostgreSQL_clean_tables.txt
 createsuperuser.txt
 
 media/public/*
+# static/*
