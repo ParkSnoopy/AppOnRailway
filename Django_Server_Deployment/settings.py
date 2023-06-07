@@ -24,11 +24,13 @@ from dotenv import load_dotenv ; load_dotenv()
 import os
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
+CUSTOM_URL = os.environ["CUSTOM_URL"]
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 # ALLOWED HOSTS
-ALLOWED_HOSTS = ['app.sunwoo.top', ]
+ALLOWED_HOSTS = [CUSTOM_URL, ]
 
 
 # Application definition
@@ -197,8 +199,8 @@ SESSION_COOKIE_SECURE = True
 
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://app.sunwoo.top', 
-    'http://app.sunwoo.top',
+    protocol + CUSTOM_URL
+    for protocol in ('http://', 'https://', )
 ]
 
 
