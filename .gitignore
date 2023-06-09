@@ -8,3 +8,6 @@ createsuperuser.txt
 
 media/public/*
 static/*
+
+
+*.pdf
