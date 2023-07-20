@@ -1,32 +1,30 @@
 <!DOCTYPE html>
 <html>
-<head>
-  {% block title %}
-  {% endblock %}
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="/static/favicon.ico">
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" type='text/css' href="/static/css/bootstrap.min.css">
-  <script type="text/javascript" defer>
-    function controlDeviceWidth() {
-      if ( window.innerWidth > 960 ) {
-        document.getElementById("main-container").style = "width: 60%; "
-        document.getElementById("innerelements-widthcontrol").style = "margin-left: 10%; width: 80%;";
+  <head>
+    {% block title %}
+    {% endblock %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/favicon.ico">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type='text/css' href="/static/css/bootstrap.min.css">
+    <script type="text/javascript" defer>
+      function controlDeviceWidth() {
+        if ( window.innerWidth > 960 ) {
+          document.getElementById("main-container").style = "width: 60%; "
+          document.getElementById("innerelements-widthcontrol").style = "margin-left: 10%; width: 80%;";
+        }
       }
-    }
-  </script>
-</head>
-<body onload="controlDeviceWidth()">
-
-<div id="main-container" class="container-lg pt-3">
-  <div class="jumbotron text-center">
-  <div id="innerelements-widthcontrol" class="jumbotron text-center">
-      {% block content %}
-      {% endblock %}
-  </div>
-</div>
-</div>
-
-</body>
+    </script>
+  </head>
+  <body onload="controlDeviceWidth()">
+    <div id="main-container" class="container-lg pt-3">
+      <div class="jumbotron text-center">
+        <div id="innerelements-widthcontrol" class="jumbotron text-center">
+          {% block content %}
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
